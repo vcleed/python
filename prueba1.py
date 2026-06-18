@@ -1,3 +1,10 @@
+def buscar_mascota(lista_m,nombre_m):
+    #recorrer y devolver la posicion
+    for i in range(len(lista_m)):
+        if lista_m[i]["nombre"] == nombre_m:
+            return i #retorno la posicion
+    return -1 #se terrmino el ciclo por tanto no se encontró
+
 def mostrar_menu():
     print("=======================")
     print("1.- Agregar Mascota  ")
@@ -61,6 +68,14 @@ def agregar_mascota(lista_m):
     lista_m.append(mascota)
     print("Mascotas agregada correctamente")
 
+#opcion 4
+def actualizar_vacunas(lista_m):
+    for m in lista_m:
+        #preguntamos por la edad para validar
+        if m["edad"] >= 1:
+            m["vacunada"] = True
+        else:
+            m["vacunada"]= False
 #codigo principal
 #declarar lista de mascota
 datos_mascotas = []
@@ -71,14 +86,52 @@ while op != 6:
 
     if op == 1:
         agregar_mascota(datos_mascotas)
+
     elif op == 2:
-        print()
+        print("***** Buscar Mascota *****")
+        nom = input("Ingrese el nombre de la mascota a buscar: ")
+        posicion = buscar_mascota(datos_mascotas, nom)
+        if posicion != -1:
+            m = datos_mascotas[posicion]
+            print(f"Mascota encontrada en la posicion: {posicion}")
+            print(f"Nombre Mascota: {m['nombre']}")
+            print(f"Especie Mascota: {m['especie']}")
+            print(f"Edad Mascota: {m['edad']}")
+            print(f"Vacunada: {m['vacunada']}")
+        else:
+            print(f"No se encontro la mascota en {nom}")
+
     elif op == 3:
-        print()
+        print("***** Eliminar Mascota ******")
+        nom = input("Ingrese el nombre de la mascota a eliminar")
+        posicion = buscar_mascota(datos_mascotas, nom)
+        if posicion != -1:
+            datos_mascotas.pop(posicion)
+            print("Mascota eliminada correctamente")
+        else:
+            print("La mascota no se ah encontrado")
+    
     elif op == 4:
-        print()
+        actualizar_vacunas(datos_mascotas)
+        print("estado de vacunas actualizadas")
+
     elif op == 5:
-        print()
+        #actualizar el estado de las vacunas
+        actualizar_vacunas(datos_mascotas)
+        #mostrar sus datos
+        #si la lista esta vacia
+        if len(datos_mascotas) == 0:
+            print("No hay Mascotas en la lista")
+        else:
+            print("== Lista Mascotas ==")
+            for m in datos_mascotas:
+                print(f"nombre: {m['nombre']}")
+                print(f"especie: {m['especie']}")
+                print(f"edad: {m['edad']}")
+                #variable para cambiar el valor de vacunada
+                estado = "AL DIA" if m["vacunada"] else "PENDIENTE"
+                print(f"Estado vacuna: {estado}")
+
     elif op == 6:
         print("Gracias por usar el sitema")
     
